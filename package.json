@@ -19,7 +19,8 @@
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.33.2"
+    "@raycast/api": "^1.33.2",
+    "axios": "^0.27.2"
   },
   "devDependencies": {
     "@types/node": "~16.10.0",
@@ -31,6 +32,16 @@
     "prettier": "^2.5.1",
     "typescript": "^4.4.3"
   },
+  "preferences": [
+    {
+      "name": "rapidApiKey",
+      "title": "RapidAPI Key",
+      "description": "RapidAPI Key for Unogs",
+      "type": "password",
+      "default": "",
+      "required": true
+    }
+  ],
   "scripts": {
     "build": "ray build -e dist",
     "dev": "ray develop",
