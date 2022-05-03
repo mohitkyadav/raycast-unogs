@@ -1,13 +1,15 @@
 import { getPreferenceValues, PreferenceValues } from "@raycast/api";
 import axios from "axios";
 
+import { SearchResults } from "../models";
+
 const API_URL = "unogs-unogs-v1.p.rapidapi.com";
 const TITLE_API_URL = `https://${API_URL}/search/titles`;
 
-export const searchTitle = (title: string) => {
+export const searchTitle = (title: string): Promise<SearchResults> => {
   const preferences: PreferenceValues = getPreferenceValues();
 
-  axios
+  return axios
     .get(TITLE_API_URL, {
       params: { order_by: "date", title },
       headers: {
@@ -15,10 +17,10 @@ export const searchTitle = (title: string) => {
         "X-RapidAPI-Key": preferences.rapidApiKey,
       },
     })
-    .then(function (response) {
-      console.log(response.data);
+    .then((response) => {
+      return response.data;
     })
-    .catch(function (error) {
-      console.error(error.response);
+    .catch((error) => {
+      throw error;
     });
 };
