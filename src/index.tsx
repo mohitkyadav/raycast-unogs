@@ -1,5 +1,5 @@
-import { HomePage } from "./pages";
+import { SearchPage } from "./pages";
 
 export default function Command() {
-  return <HomePage />;
+  return <SearchPage />;
 }
