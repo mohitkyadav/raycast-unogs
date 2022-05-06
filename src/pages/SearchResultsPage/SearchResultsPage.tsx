@@ -15,10 +15,7 @@ export const SearchResultsPage = (props: { title: string }) => {
   useEffect(() => {
     setLoading(true);
     searchTitle(props.title)
-      .then((data: SearchResults) => {
-        setData(data);
-        console.log(data.results[0]);
-      })
+      .then((data: SearchResults) => setData(data))
       .catch((error) => {
         showToast(error.message);
       })
@@ -33,9 +30,7 @@ export const SearchResultsPage = (props: { title: string }) => {
       if (netflixId) {
         setIsLoadingDetails(true);
         getTitleCountries(netflixId)
-          .then((data: TitleCountries) => {
-            setCurrentTitleCountries(data);
-          })
+          .then((data: TitleCountries) => setCurrentTitleCountries(data))
           .finally(() => setIsLoadingDetails(false));
       }
     }
