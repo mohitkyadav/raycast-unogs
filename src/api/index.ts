@@ -4,18 +4,24 @@ import axios from "axios";
 import { SearchResults } from "../models";
 
 const API_URL = "unogs-unogs-v1.p.rapidapi.com";
-const TITLE_API_URL = `https://${API_URL}/search/titles`;
+const TITLE_SEARCH_API_URL = `https://${API_URL}/search/titles`;
+const TITLE_API_URL = `https://${API_URL}/title/details`;
+const TITLE_COUNTRIES_API_URL = `https://${API_URL}/title/countries`;
 
-export const searchTitle = (title: string): Promise<SearchResults> => {
+const getHeaders = () => {
   const preferences: PreferenceValues = getPreferenceValues();
 
-  return axios
-    .get(TITLE_API_URL, {
+  return {
+    "x-rapidapi-host": API_URL,
+    "X-RapidAPI-Key": preferences.rapidApiKey,
+  };
+};
+
+export const searchTitle = (title: string): Promise<SearchResults> =>
+  axios
+    .get(TITLE_SEARCH_API_URL, {
       params: { order_by: "date", title },
-      headers: {
-        "X-RapidAPI-Host": API_URL,
-        "X-RapidAPI-Key": preferences.rapidApiKey,
-      },
+      headers: getHeaders(),
     })
     .then((response) => {
       return response.data;
@@ -23,4 +29,25 @@ export const searchTitle = (title: string): Promise<SearchResults> => {
     .catch((error) => {
       throw error;
     });
-};
+
+export const getTitleDetails = (titleId: number): Promise<any> =>
+  axios
+    .get(TITLE_API_URL, {
+      params: { netflix_id: titleId },
+      headers: getHeaders(),
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
+
+export const getTitleCountries = (titleId: number): Promise<any> =>
+  axios
+    .get(TITLE_COUNTRIES_API_URL, {
+      params: { netflix_id: titleId },
+      headers: getHeaders(),
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error;
+    });
