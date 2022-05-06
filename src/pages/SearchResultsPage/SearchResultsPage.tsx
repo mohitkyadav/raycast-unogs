@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { List, Icon, showToast, ActionPanel, Action } from "@raycast/api";
 
 import { getTitleCountries, searchTitle } from "../../api";
-import { SearchItem, SearchResults } from "../../models";
+import { SearchItem, SearchResults, TitleCountries } from "../../models";
+import { detailMarkDown } from "../../utils";
 
 export const SearchResultsPage = (props: { title: string }) => {
   const [data, setData] = useState<SearchResults>();
+  const [currentTitleCountries, setCurrentTitleCountries] = useState<TitleCountries>();
   const [loading, setLoading] = useState(false);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
   const [showingDetails, setShowingDetails] = useState(false);
@@ -24,13 +26,15 @@ export const SearchResultsPage = (props: { title: string }) => {
   }, [props.title]);
 
   const handleSelect = (id?: string) => {
+    setCurrentTitleCountries(undefined);
+
     if (id) {
       const netflixId = data?.results[parseInt(id, 10)].netflix_id;
       if (netflixId) {
         setIsLoadingDetails(true);
         getTitleCountries(netflixId)
-          .then((data) => {
-            console.log(data);
+          .then((data: TitleCountries) => {
+            setCurrentTitleCountries(data);
           })
           .finally(() => setIsLoadingDetails(false));
       }
@@ -39,13 +43,13 @@ export const SearchResultsPage = (props: { title: string }) => {
 
   return (
     <List isLoading={loading} isShowingDetail={showingDetails} onSelectionChange={handleSelect}>
-      {data?.results.map((result: SearchItem, idx: number) => {
+      {data?.results?.map((result: SearchItem, idx: number) => {
         const props: Partial<List.Item.Props> = showingDetails
           ? {
               detail: (
                 <List.Item.Detail
                   isLoading={isLoadingDetails}
-                  markdown={`![Illustration](${result.poster})\n\n${result.title}`}
+                  markdown={detailMarkDown(result, currentTitleCountries?.results)}
                 />
               ),
             }

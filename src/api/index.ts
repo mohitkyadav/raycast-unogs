@@ -1,7 +1,7 @@
 import { getPreferenceValues, PreferenceValues } from "@raycast/api";
 import axios from "axios";
 
-import { SearchResults } from "../models";
+import { SearchResults, TitleCountries } from "../models";
 
 const API_URL = "unogs-unogs-v1.p.rapidapi.com";
 const TITLE_SEARCH_API_URL = `https://${API_URL}/search/titles`;
@@ -41,7 +41,7 @@ export const getTitleDetails = (titleId: number): Promise<any> =>
       throw error;
     });
 
-export const getTitleCountries = (titleId: number): Promise<any> =>
+export const getTitleCountries = (titleId: number): Promise<TitleCountries> =>
   axios
     .get(TITLE_COUNTRIES_API_URL, {
       params: { netflix_id: titleId },
