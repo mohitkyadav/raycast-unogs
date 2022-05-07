@@ -4,18 +4,27 @@ export const detailMarkDown = (item: SearchItem, titleCountries: TitleCountry[] 
   return `
   # ${item.title}
 
-  ${capitalize(item.title_type)} ✦ ${item.year}
-   ✦ ${toTwoDecimal(toMinutes(item.runtime))} minutes
-   ✦ \`${toTwoDecimal(parseInt(item.rating, 10))}/5\` Rating
+  ${capitalize(item.title_type)} ❉ ${item.year}
+   ❉ ${Math.round(toMinutes(item.runtime))} min
+   ❉ \`${toTwoDecimal(parseInt(item.rating, 10))}/5 ⭐️\`
 
   ---
+  ## Countries
+  ${titleCountries
+    .map((country) => {
+      return `* ${getFlagEmoji(country.country_code)} ${country.country}
+      \n  * Audio -> ${country.audio.split(",").join(", ")}
+      \n  * Subtitle -> ${country.subtitle.split(",").join(", ")}
+      `;
+    })
+    .join("\n")}
+
+  ---
+  ## Details
 
   ${item.synopsis}
 
   ${item.poster && `<img src="${item.poster}" alt="${item.title}" height="250">`}
-
-  ## Countries
-  ${titleCountries.map((country) => `${getFlagEmoji(country.country_code) + country.country}`.trim()).join(", ")}
   `;
 };
 
