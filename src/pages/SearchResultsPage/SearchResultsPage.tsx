@@ -22,11 +22,11 @@ export const SearchResultsPage = (props: { title: string }) => {
       .finally(() => setLoading(false));
   }, [props.title]);
 
-  const handleSelect = (id?: string) => {
+  const handleSelect = (idx?: string) => {
     setCurrentTitleCountries(undefined);
 
-    if (id) {
-      const netflixId = data?.results[parseInt(id, 10)].netflix_id;
+    if (idx && data && data.results) {
+      const netflixId = data.results[parseInt(idx, 10)].netflix_id;
       if (netflixId) {
         setIsLoadingDetails(true);
         getTitleCountries(netflixId)
@@ -37,37 +37,44 @@ export const SearchResultsPage = (props: { title: string }) => {
   };
 
   return (
-    <List isLoading={loading} isShowingDetail={showingDetails} onSelectionChange={handleSelect}>
-      {data?.results?.map((result: SearchItem, idx: number) => {
-        const props: Partial<List.Item.Props> = showingDetails
-          ? {
-              detail: (
-                <List.Item.Detail
-                  isLoading={isLoadingDetails}
-                  markdown={detailMarkDown(result, currentTitleCountries?.results)}
-                />
-              ),
-            }
-          : { subtitle: result.title_date };
+    <List
+      isLoading={loading}
+      isShowingDetail={showingDetails}
+      onSelectionChange={handleSelect}
+      searchBarPlaceholder="Filter by title, year or imdb ID"
+    >
+      {!data?.results && <List.EmptyView icon={Icon.MagnifyingGlass} title="No results for given title." />}
+      {data?.results &&
+        data.results.map((result: SearchItem, idx: number) => {
+          const props: Partial<List.Item.Props> = showingDetails
+            ? {
+                detail: (
+                  <List.Item.Detail
+                    isLoading={isLoadingDetails}
+                    markdown={detailMarkDown(result, currentTitleCountries?.results)}
+                  />
+                ),
+              }
+            : { subtitle: result.title_date };
 
-        return (
-          <List.Item
-            key={result.netflix_id}
-            id={idx.toString()}
-            icon={result.title_type === "movie" ? "🎬" : "📺"}
-            title={result.title}
-            accessories={[{ text: result.year, icon: Icon.Calendar }]}
-            keywords={[result.title, result.imdb_id, result.year, result.synopsis]}
-            actions={
-              <ActionPanel>
-                <Action icon={Icon.List} title="Show Details" onAction={() => setShowingDetails(!showingDetails)} />
-                <Action.OpenInBrowser url={`https://www.netflix.com/title/${result.netflix_id}`} />
-              </ActionPanel>
-            }
-            {...props}
-          />
-        );
-      })}
+          return (
+            <List.Item
+              key={result.netflix_id}
+              id={idx.toString()}
+              icon={result.title_type === "movie" ? "🎬" : "📺"}
+              title={result.title}
+              accessories={[{ text: result.year, icon: Icon.Calendar }]}
+              keywords={[result.title, result.imdb_id, result.year, result.synopsis]}
+              actions={
+                <ActionPanel>
+                  <Action icon={Icon.List} title="Show Details" onAction={() => setShowingDetails(!showingDetails)} />
+                  <Action.OpenInBrowser url={`https://www.netflix.com/title/${result.netflix_id}`} />
+                </ActionPanel>
+              }
+              {...props}
+            />
+          );
+        })}
     </List>
   );
 };

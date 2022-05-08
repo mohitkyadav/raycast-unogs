@@ -16,5 +16,5 @@ export interface SearchItem {
 
 export interface SearchResults {
   Object: { total: number; limit: number; offset: number };
-  results: SearchItem[];
+  results?: SearchItem[];
 }
