@@ -36,7 +36,7 @@
     {
       "name": "rapidApiKey",
       "title": "RapidAPI Key",
-      "description": "RapidAPI Key for Unogs",
+      "description": "API --> https://rapidapi.com/unogs/api/unogs/",
       "type": "password",
       "default": "",
       "required": true
