@@ -5,6 +5,7 @@
   "description": "",
   "icon": "command-icon.png",
   "author": "mohitkyadav",
+  "version": "1.0.0",
   "categories": [
     "Media"
   ],
@@ -12,9 +13,9 @@
   "commands": [
     {
       "name": "index",
-      "title": "unogs",
-      "subtitle": "Find in supported regions for your Netflix titles.",
-      "description": "Search for your favorite netflix title through Ungos db and find out their regions.",
+      "title": "Search Unogs",
+      "subtitle": "Unogs",
+      "description": "Search for your favorite Netflix title through Ungos db and find out their regions, audio and subtitle details.",
       "mode": "view"
     }
   ],

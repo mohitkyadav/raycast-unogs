@@ -8,6 +8,6 @@ Search for netflix titles on [Unogs](https://unogs.com/). View the title's suppo
 - Enjoy!
 
 ## Demo
-![](demo/1.png)
-![](demo/2.png)
-![](demo/3.png)
+![](metadata/1.png)
+![](metadata/2.png)
+![](metadata/3.png)
