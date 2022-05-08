@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { List, Icon, showToast, ActionPanel, Action } from "@raycast/api";
+import { List, Icon, showToast, ActionPanel, Action, Toast } from "@raycast/api";
 
 import { getTitleCountries, searchTitle } from "../../api";
 import { SearchItem, SearchResults, TitleCountries } from "../../models";
@@ -17,7 +17,11 @@ export const SearchResultsPage = (props: { title: string }) => {
     searchTitle(props.title)
       .then((data: SearchResults) => setData(data))
       .catch((error) => {
-        showToast(error.message);
+        showToast({
+          style: Toast.Style.Failure,
+          title: "Error",
+          message: error.message || "Something went wrong",
+        });
       })
       .finally(() => setLoading(false));
   }, [props.title]);

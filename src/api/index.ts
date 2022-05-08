@@ -5,7 +5,6 @@ import { SearchResults, TitleCountries } from "../models";
 
 const API_URL = "unogs-unogs-v1.p.rapidapi.com";
 const TITLE_SEARCH_API_URL = `https://${API_URL}/search/titles`;
-const TITLE_API_URL = `https://${API_URL}/title/details`;
 const TITLE_COUNTRIES_API_URL = `https://${API_URL}/title/countries`;
 
 const getHeaders = () => {
@@ -26,17 +25,6 @@ export const searchTitle = (title: string): Promise<SearchResults> =>
     .then((response) => {
       return response.data;
     })
-    .catch((error) => {
-      throw error;
-    });
-
-export const getTitleDetails = (titleId: number): Promise<any> =>
-  axios
-    .get(TITLE_API_URL, {
-      params: { netflix_id: titleId },
-      headers: getHeaders(),
-    })
-    .then((response) => response.data)
     .catch((error) => {
       throw error;
     });
